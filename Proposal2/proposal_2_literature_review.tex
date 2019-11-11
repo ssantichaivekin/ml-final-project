@@ -59,6 +59,22 @@ No Free Lunch For Optimization
 
 \url{http://www.cs.cmu.edu/~gmontane/montanez_dissertation.pdf} [Lorraine]
 
+
+	In George Montanez’s work why Machine Learning works, chapter 4, he specifies that learning problems can be reduced into different search problems by various means. 
+	
+	
+	First, this chapter talks about regression as search, where a function from a set of input a real valued output is learned. Given a dataset D that has both training instances with class labels and test set, and a external information resource, we can view each regression algorithm as a search that outputs a function according to the loss function from a large collection of possible regression functions. 
+	
+	Second, George mentions a specific case of the above example—classification as search, which is a type of regression with output values restricted to a small set, where class labels are often categorical. 
+	
+	Third, the paper examines clustering as search, where we have a set of points in a vector space and we need to cluster them into distinct groups with a fixed set of unknown clusters and a truth assignment of points to clusters. While soft-clustering algorithm allows a point to be grouped into more than one cluster, hard-clustering algorithm assigns each point to only one cluster. It is important to note that the better the vector space representation of the points, the more dependent between the external information source and the target set of acceptable clusterings; and that the better how the points are chosen (like sampling i.i.d.), the more informative the set of points concerning the true cluster assignments.
+	
+	Fourth, the paper discusses parameter estimation as search, where we have a large search space of parameter vectors, each of which could be used as input to a black-box process. The better the restrictions are detailing how output data is produced with the true parameter vector, the more informative the external information source is concerning the true parameter vector.
+	
+	Fifth, the paper continues to discuss on hyperparameter optimization as search, where we have a sequential optimization procedure that samples elements from the search space, evaluates them according to the external information source and adds the feedback to the history. 
+	Sixth, the paper briefly describes general learning problem as search, where we can translate Vapnik’s generalization of learning into the search framework.
+
+
 \newpage
 
 
@@ -77,7 +93,7 @@ Given a search space $\Omega$, a target set $T$, and an information resource $F$
 The paper describes a \textbf{Black-box Search Algorithm}, that attempts to find points $\omega$ in the target set $T$. The algorithm keeps track of its history $H$, which is a series of tuples $h_i = (\omega_i, F(\omega_i))$. Each tuple keeps track of the ith call to the oracle. At iteration $i$, the algorithm uses the history up to this point to compute a distribution $P_i$ over $\Omega$. The algorithm chooses some element $w_i$ according to the distribution and consults the oracle. Note especially that this algorithm will perform queries $i_{\text{max}}$ times - only after does it check if we have seen a target element.
 
 \begin{center}
-    \includegraphics{FamineForte/BlackBoxAlgo.PNG}
+    \includegraphics{BlackBoxAlgo.PNG}
 \end{center}
 
 We care about the performance of our search algorithm, since it is sufficiently general to represent many ML algorithms. 
@@ -85,7 +101,7 @@ We care about the performance of our search algorithm, since it is sufficiently 
 Since the algorithm performs $i_{\text{max}}$ queries to the oracle, but this number can change, we may measure its performance by the expected per-query probability of success $q(T|F)$. The paper goes on to discuss how since this expectation is over all sources of randomness, it is equal to the probability of success for samples drawn from an appropriately averaged distribution - I don't really understand this. 
 
 \begin{center}
-    \includegraphics{FamineForte/ExpectedSuccess.PNG}
+    \includegraphics{ExpectedSuccess.PNG}
 \end{center}
 
 The paper defines $p(T,F)$ to be the expected probability of success when performing uniform random sampling, and uses this a baseline for the performance of our algorithm. It may be worth checking out the following paper, since it is referenced by Famine of Forte when discussion $p(T,F)$. 
@@ -128,7 +144,7 @@ This uses the exact same set construction as theorem 1. Note that $I_{q(T,F)}$ l
 
 \textbf{Theorem 2.} Famine of Favorable Strategies
 \begin{center}
-    \includegraphics{FamineForte/FamineStrategy.PNG}
+    \includegraphics{FamineStrategy.PNG}
 \end{center}
 
 To be honest, I am not sure what this theorem is saying at the moment. My guess is that over all possible sequences $\{P_i\}_i$ of probabilities we can bound the number of algorithms that perform well on a given search problem. 
@@ -139,7 +155,7 @@ The paper discusses below how this places bounds on the number of favorable stra
 
 \textbf{Theorem 3.} Success Under Dependence
 \begin{center}
-    \includegraphics{FamineForte/SuccessUnderDependence.PNG}
+    \includegraphics{SuccessUnderDependence.PNG}
 \end{center}
 
 This upper-bounds the expected performance of our algorithm on a search problem. The paper discusses how this bounds improves monotonically with the dependence between between our target set and information resources. That is, if our information is somewhat accurate, we can perform better! 
@@ -222,6 +238,8 @@ area of interest that we can explore in more details in our project.
 \subsection*{“Generalization as Search”}
 \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.121.5764&rep=rep1&type=pdf} [Lorraine]
 
+In "Generalization as Search," Tom M. Mitchell claims that the problem of forming a general description of a class of objects given a set of examples and non-examples can be viewed as a search problem. Generalization is cast as a search problem where different methods for generalization would be characterized in terms of different search strategies(203). The generalization language corresponds to an search space of possible solutions, and the learning task is to examine the search space under constraints imposed by training instances, and find generalizations. The paper compares and contrasts multiple strategies, like a general-to-specific partial ordering and several data-directed generalization strategies, which leads to the comparisons of their relative capabilities and computational complexity(224). However, I don't think those specific strategies apply to the bigger picture of our research topic yet, so I didn't include their detailed analysis here.
+
 \newpage 
 
 \subsection*{“Data Compression Explained”}
@@ -240,20 +258,12 @@ The best compression we can achieve for any string $x$ is to encode it as the sh
 Mahoney also discusses how compression is an artificial intelligence problem by explaining how prediction or compression could be used to test or measure understanding.
 
 ``Minimum Description Length” \url{https://www.cs.cmu.edu/~aarti/Class/10704/lec13-MDL.pdf} [Princewill]
-
 The minimum description length (MDL) criteria in machine learning says that the best description of the data is given by the model which compresses it the best. This is because learning a model for the data or predicting it is about capturing the regularities in the data and any regularity in the data can be used to compress it. Thus, the more we can compress a data, the more we have learnt about it and the better we can predict it. The ideal version of MDL, given by the Kolmogorov Complexity, which is defined as the length of the shortest computer program that prints the sequence of observed data and halts, is uncomputable.
-
 Practical versions of MDL are either based on one stage universal codes (known as refined MDL) or two-stage codes (known as crude MDL). The refined MDL suggest that, for a given class of models, pick the model which minimizes the worst case redundancy on the data. This leads to precisely the universal models such as mixture models and normalized maximum likelihood (NML) model. The crude MDL or two-stage code approach is based on the notion that we can specify the descriptive properties of a model for data in two stages - (i) encode the model with some codelength $L(q)$, (ii) encode the data using the model with codelength $L_q(x^n)$. Now pick the model which minimizes the total codelength of the two-stage code: $q_\gamma(x^n) = \arg \min_{q\in Q_\gamma} \{L(q) + Lq(x^n)\}$
-
 The MDL principle can also be used for classification or regression. The two-stage MDL procedure for selecting the best model in a given class would be the regularized least squares framework.
-
 No Free Lunch For Optimization
 \url{https://ti.arc.nasa.gov/m/profile/dhw/papers/78.pdf} [Santi] [Jacob]	
-
 The No Free Lunch Theorems for Optimization paper establishes that under an oracle model of search, two algorithms that use the same number of oracle reveals have the same expected performance if all cost functions have the same likelihood of being chosen. Wolpert and Macready proves this by showing that any algorithm reveals the same sequence of cost on average regardless of what has been previously revealed to the algorithm. The formal proof is done by induction using a statistical model, but it could have been done without statistical model too. The paper also goes on to prove the NFL result for time-dependent cost functions and relate the result to other topics such as information theory and geometry. I have not looked into these topics yet as it seems to be more complex.
-
 The search model used in the paper includes simulated annealing and evolutionary algorithm (where each species is independently evaluated). It does not include techniques like branch and bound or coevolutionary algorithm (where species are evaluated against each other). The authors also went on to prove that there is free lunch for coevolutionary algorithms, that is, some algorithm performs objectively better compared to others.
-
 The authors also mention that they had proved a similar result for statistical inference (machine learning) which I have not explored. I think I will need to spend some time to understand the proof for optimization better before delving into the other one.
-
 \end{document}
