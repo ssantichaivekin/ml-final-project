@@ -16,7 +16,7 @@
 
 \begin{document}
 
-\title{CS181P Final Project Proposal \#1}
+\title{CS181P Final Project Proposal \#2}
 
 \author{
 Santi Santichaivekin, Jingyi Liu, Jacob Boerma, Lorraine Zhao, Princewill Okoroafor\\
@@ -121,8 +121,25 @@ area of interest that we can explore in more details in our project.
 “Data Compression Explained” 
 \url{http://mattmahoney.net/dc/dce.html#Section_13} [Rose] [Princewill]
 
-“Minimum Description Length” 
-\url{https://www.cs.cmu.edu/~aarti/Class/10704/lec13-MDL.pdf} [Princewill]
+Data Compression Explained is an online book by Matt Mahoney that tries to explain how data compression works. It starts with an information theoretic introduction to data compression and goes on to discuss different codes, models, transforms and lossy compression of images, audio and video. In the information theoretic introduction which we care more about, Mahoney highlights that information theory places hard limits on what can and cannot be compressed losslessly, and by how much:
+\begin{enumerate}
+\item There is no such thing as a "universal" compression algorithm that is guaranteed to compress any input, or even any input above a certain size. In particular, it is not possible to compress random data or compress recursively.
+\item Given a model (probability distribution) of your input data, the best you can do is code symbols with probability $p$ using $\log_2 \frac{1}{p}$ bits. Efficient and optimal codes are known.
+\item Data has a universal but uncomputable probability distribution. Specifically, any string $x$ has probability (about) $2^{-|M|}$ where $M$ is the shortest possible description of $x$, and $|M|$ is the length of M in bits, almost independent of the language in which $M$ is written. However there is no general procedure for finding $M$ or even estimating $|M|$ in any language. There is no algorithm that tests for randomness or tells you whether a string can be compressed any further.
+\end{enumerate}
+
+Mahoney also explains that modeling is not computable citing work by Solomonoff (1960, 1964), Kolmogorov (1965), and Chaitin (1966) who independently proposed a universal a-priori probability distribution over strings based on their minimum description length. The algorithmic probability of a string $x$ is defined as the fraction of random programs in some language $L$ that output $x$, where each program $M$ is weighted by $2^{-|M|}$ and $|M|$ is the length of $M$ in bits. This probability is dominated by the shortest such program. We call this length the Kolmogorov complexity $KL(x)$ of $x$.
+The best compression we can achieve for any string $x$ is to encode it as the shortest program $M$ in some language $L$ that outputs $x$.
+
+Mahoney also discusses how compression is an artificial intelligence problem by explaining how prediction or compression could be used to test or measure understanding.
+
+``Minimum Description Length” \url{https://www.cs.cmu.edu/~aarti/Class/10704/lec13-MDL.pdf} [Princewill]
+
+The minimum description length (MDL) criteria in machine learning says that the best description of the data is given by the model which compresses it the best. This is because learning a model for the data or predicting it is about capturing the regularities in the data and any regularity in the data can be used to compress it. Thus, the more we can compress a data, the more we have learnt about it and the better we can predict it. The ideal version of MDL, given by the Kolmogorov Complexity, which is deﬁned as the length of the shortest computer program that prints the sequence of observed data and halts, is uncomputable.
+
+Practical versions of MDL are either based on one stage universal codes (known as reﬁned MDL) or two-stage codes (known as crude MDL). The reﬁned MDL suggest that, for a given class of models, pick the model which minimizes the worst case redundancy on the data. This leads to precisely the universal models such as mixture models and normalized maximum likelihood (NML) model. The crude MDL or two-stage code approach is based on the notion that we can specify the descriptive properties of a model for data in two stages - (i) encode the model with some codelength $L(q)$, (ii) encode the data using the model with codelength $L_q(x^n)$. Now pick the model which minimizes the total codelength of the two-stage code: $q_\gamma(x^n) = \arg \min_{q\in Q_\gamma} \{L(q) + Lq(x^n)\}$
+
+The MDL principle can also be used for classiﬁcation or regression. The two-stage MDL procedure for selecting the best model in a given class would be the regularized least squares framework.
 
 No Free Lunch For Optimization
 \url{https://ti.arc.nasa.gov/m/profile/dhw/papers/78.pdf} [Santi] [Jacob]	
