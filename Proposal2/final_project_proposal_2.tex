@@ -35,7 +35,7 @@ Princewill Okoroafor.
 The team name is Go Pika Pika!
 The team logo is provided below.
 
-\includegraphics[width=0.25\textwidth]{Surprised_Pikachu_HD.jpg}
+\includegraphics[width=0.25\textwidth]{../Logo/logo1.jpg}
 
 \section{Project}
 
@@ -135,11 +135,11 @@ Mahoney also discusses how compression is an artificial intelligence problem by 
 
 ``Minimum Description Length” \url{https://www.cs.cmu.edu/~aarti/Class/10704/lec13-MDL.pdf} [Princewill]
 
-The minimum description length (MDL) criteria in machine learning says that the best description of the data is given by the model which compresses it the best. This is because learning a model for the data or predicting it is about capturing the regularities in the data and any regularity in the data can be used to compress it. Thus, the more we can compress a data, the more we have learnt about it and the better we can predict it. The ideal version of MDL, given by the Kolmogorov Complexity, which is deﬁned as the length of the shortest computer program that prints the sequence of observed data and halts, is uncomputable.
+The minimum description length (MDL) criteria in machine learning says that the best description of the data is given by the model which compresses it the best. This is because learning a model for the data or predicting it is about capturing the regularities in the data and any regularity in the data can be used to compress it. Thus, the more we can compress a data, the more we have learnt about it and the better we can predict it. The ideal version of MDL, given by the Kolmogorov Complexity, which is defined as the length of the shortest computer program that prints the sequence of observed data and halts, is uncomputable.
 
-Practical versions of MDL are either based on one stage universal codes (known as reﬁned MDL) or two-stage codes (known as crude MDL). The reﬁned MDL suggest that, for a given class of models, pick the model which minimizes the worst case redundancy on the data. This leads to precisely the universal models such as mixture models and normalized maximum likelihood (NML) model. The crude MDL or two-stage code approach is based on the notion that we can specify the descriptive properties of a model for data in two stages - (i) encode the model with some codelength $L(q)$, (ii) encode the data using the model with codelength $L_q(x^n)$. Now pick the model which minimizes the total codelength of the two-stage code: $q_\gamma(x^n) = \arg \min_{q\in Q_\gamma} \{L(q) + Lq(x^n)\}$
+Practical versions of MDL are either based on one stage universal codes (known as refined MDL) or two-stage codes (known as crude MDL). The refined MDL suggest that, for a given class of models, pick the model which minimizes the worst case redundancy on the data. This leads to precisely the universal models such as mixture models and normalized maximum likelihood (NML) model. The crude MDL or two-stage code approach is based on the notion that we can specify the descriptive properties of a model for data in two stages - (i) encode the model with some codelength $L(q)$, (ii) encode the data using the model with codelength $L_q(x^n)$. Now pick the model which minimizes the total codelength of the two-stage code: $q_\gamma(x^n) = \arg \min_{q\in Q_\gamma} \{L(q) + Lq(x^n)\}$
 
-The MDL principle can also be used for classiﬁcation or regression. The two-stage MDL procedure for selecting the best model in a given class would be the regularized least squares framework.
+The MDL principle can also be used for classification or regression. The two-stage MDL procedure for selecting the best model in a given class would be the regularized least squares framework.
 
 No Free Lunch For Optimization
 \url{https://ti.arc.nasa.gov/m/profile/dhw/papers/78.pdf} [Santi] [Jacob]	
